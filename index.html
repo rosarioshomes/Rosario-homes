@@ -85,8 +85,12 @@
     .pill{background:#ffd56b; padding:6px 10px; border-radius:999px; font-weight:700; color:#111; display:inline-block;}
     .areas{display:flex; gap:10px; flex-wrap:wrap;}
     .areas span{background:#eef2f8; border:1px solid #dfe6f3; padding:6px 10px; border-radius:999px; font-size:13px;}
-    iframe.form{width:100%; height:900px; border:0; border-radius:12px; box-shadow:0 6px 16px #0000000a;}
-    .fallback{margin-top:10px; font-size:14px;}
+    .field-label{display:block; font-weight:600; margin-bottom:4px; font-size:14px;}
+    .field-input, .field-select{
+      width:100%; padding:10px; margin-bottom:10px;
+      border-radius:6px; border:1px solid #d0d7de; font-size:14px;
+    }
+    .note{font-size:12px; color:#555;}
   </style>
 </head>
 <body>
@@ -117,23 +121,85 @@
   </section>
 
   <section class="container split">
+    <!-- LEFT CARD: Instant Offer Calculator -->
     <div class="card">
-      <h3>Get Your No‑Obligation Cash Offer</h3>
-      <p>Tell us about the property. We’ll give you a fair, transparent cash offer—fast.</p>
-      <!-- Embedded Google Form -->
-      <iframe class="form" src="https://docs.google.com/forms/d/e/1FAIpQLSfy0V0E_bGFaIFkXBuJu01gPXx6W7sWKiGOO-zRiP5zzfMXOQ/viewform?embedded=1">Loading…</iframe>
-      <div class="fallback">If the form doesn't load, <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSfy0V0E_bGFaIFkXBuJu01gPXx6W7sWKiGOO-zRiP5zzfMXOQ/viewform" target="_blank" rel="noopener">open it here</a>.</div>
+      <h3>Get Your No-Obligation Cash Offer Estimate</h3>
+      <p>Answer a few quick questions. We’ll estimate a cash offer range based on typical prices in your part of Connecticut.</p>
+
+      <label class="field-label">Your Name</label>
+      <input id="sellerName" class="field-input" type="text" placeholder="Your name">
+
+      <label class="field-label">Phone Number</label>
+      <input id="sellerPhone" class="field-input" type="text" placeholder="Best number to reach you">
+
+      <label class="field-label">Property Address</label>
+      <input id="propertyAddress" class="field-input" type="text" placeholder="Street + City">
+
+      <label class="field-label">City (Connecticut)</label>
+      <select id="city" class="field-select">
+        <option value="">Select your city</option>
+        <option value="Bridgeport">Bridgeport</option>
+        <option value="Stratford">Stratford</option>
+        <option value="Shelton">Shelton</option>
+        <option value="Milford">Milford</option>
+        <option value="New Haven">New Haven</option>
+        <option value="Hamden">Hamden</option>
+        <option value="West Haven">West Haven</option>
+        <option value="Ansonia">Ansonia</option>
+        <option value="Derby">Derby</option>
+        <option value="Waterbury">Waterbury</option>
+        <option value="Other">Other CT City</option>
+      </select>
+
+      <label class="field-label">Approximate Square Footage</label>
+      <input id="sqft" class="field-input" type="number" placeholder="Example: 1200">
+
+      <label class="field-label">If you already know your ARV, enter it here (optional)</label>
+      <input id="arv" class="field-input" type="number" placeholder="After-repair value (optional)">
+
+      <label class="field-label">Estimated Repairs Needed ($)</label>
+      <input id="repairs" class="field-input" type="number" placeholder="Example: 30000">
+
+      <label class="field-label">Property Condition</label>
+      <select id="condition" class="field-select">
+        <option value="average">Average / Livable</option>
+        <option value="dated">Dated but livable</option>
+        <option value="needswork">Needs a lot of work</option>
+        <option value="updated">Recently updated</option>
+      </select>
+
+      <button type="button" onclick="calcOffer()" class="btn" style="width:100%; text-align:center; margin-top:6px;">
+        Get My Estimate
+      </button>
+
+      <p class="note" style="margin-top:8px;">
+        This is a <strong>ballpark estimate</strong> based on typical Connecticut prices. Final offer is confirmed after a walkthrough.
+      </p>
+
+      <div id="offerResult" style="margin-top:14px; padding:12px; border-radius:10px; background:#f6f8fb; font-size:15px;"></div>
+
+      <button type="button"
+              onclick="emailLead()"
+              class="btn"
+              style="width:100%; text-align:center; margin-top:10px; background:#0d3b66; color:#fff;">
+        Email This Estimate to Rosario’s Homes
+      </button>
+      <p class="note" style="margin-top:6px;">
+        We’ll review your info and follow up with a firm cash offer.
+      </p>
+
       <p class="trust" style="margin-top:12px;">
         <span>🔒 Your info is secure and never shared.</span>
-        <span>📞 Prefer talking? Call <a class="tel" href="tel:+12038739890">203‑873‑9890</a>.</span>
+        <span>📞 Prefer talking? Call <a class="tel" href="tel:+12038739890">203-873-9890</a>.</span>
       </p>
     </div>
 
+    <!-- RIGHT CARD: How It Works -->
     <div class="card">
       <h3>How It Works</h3>
       <div class="how">
-        <div class="step"><b>1) Tell Us About the Property</b> Quick form or a 5‑minute call to get the basics.</div>
-        <div class="step"><b>2) Get a Fair Cash Offer</b> We run the numbers and present a no‑pressure offer.</div>
+        <div class="step"><b>1) Tell Us About the Property</b> Quick form or a 5-minute call to get the basics.</div>
+        <div class="step"><b>2) Get a Fair Cash Offer</b> We run the numbers and present a no-pressure offer.</div>
         <div class="step"><b>3) You Pick the Close Date</b> We handle paperwork and closing costs—no repairs needed.</div>
       </div>
       <h3>Why Sellers Choose Us</h3>
@@ -144,17 +210,124 @@
       </ul>
       <h3>Service Areas</h3>
       <div class="areas">
-        <span>Bridgeport</span><span>Waterbury</span><span>Ansonia</span><span>New Haven</span><span>Derby</span><span>Hamden</span><span>West Haven</span><span>Milford</span>
+        <span>Bridgeport</span><span>Waterbury</span><span>Ansonia</span><span>New Haven</span>
+        <span>Derby</span><span>Hamden</span><span>West Haven</span><span>Milford</span><span>Shelton</span><span>Stratford</span>
+        <span>All Connecticut Cities</span>
       </div>
     </div>
   </section>
 
   <footer>
     <div class="container">
-      © <span id="year"></span> Rosario’s Homes · A DBA of Rosario Enterprises LLC · Bridgeport, CT · <a class="tel" href="tel:+12038739890">203‑873‑9890</a>
+      © <span id="year"></span> Rosario’s Homes · A DBA of Rosario Enterprises LLC · Bridgeport, CT · <a class="tel" href="tel:+12038739890">203-873-9890</a>
     </div>
   </footer>
 
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script>
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // City-specific price per square foot (safe estimates)
+    const cityPricePerSqft = {
+      "Bridgeport": 220,
+      "Stratford": 235,
+      "Shelton": 260,
+      "Milford": 250,
+      "New Haven": 210,
+      "Hamden": 205,
+      "West Haven": 205,
+      "Ansonia": 190,
+      "Derby": 190,
+      "Waterbury": 180
+    };
+
+    // Fallback for ANY other Connecticut city
+    const fallbackPpsf = 175;
+
+    // Wholesale fee (deducted)
+    const WHOLESALE_FEE = 10000;
+
+    function calcOffer() {
+      const city = document.getElementById('city').value;
+      const sqft = parseFloat(document.getElementById('sqft').value);
+      const arvInput = parseFloat(document.getElementById('arv').value);
+      const repairsInput = parseFloat(document.getElementById('repairs').value);
+      const condition = document.getElementById('condition').value;
+      const resultEl = document.getElementById('offerResult');
+
+      let repairs = isNaN(repairsInput) ? 0 : repairsInput;
+
+      if (!city) {
+        resultEl.innerHTML = "Please select your city so we can run numbers for you.";
+        return;
+      }
+
+      // City-specific or fallback pricing
+      let ppsf = cityPricePerSqft[city] || fallbackPpsf;
+
+      // ARV calculation
+      let arv = NaN;
+      if (!isNaN(arvInput) && arvInput > 0) {
+        arv = arvInput;
+      } else if (!isNaN(sqft) && sqft > 0) {
+        arv = sqft * ppsf;
+      }
+
+      if (isNaN(arv) || arv <= 0) {
+        resultEl.innerHTML = "Please enter either the home’s approximate square footage or the ARV so we can estimate your offer.";
+        return;
+      }
+
+      // Adjust repairs based on condition
+      let repairMultiplier = 1;
+      if (condition === "dated") repairMultiplier = 1.1;
+      if (condition === "needswork") repairMultiplier = 1.3;
+      if (condition === "updated") repairMultiplier = 0.9;
+
+      const adjustedRepairs = repairs * repairMultiplier;
+
+      // MAO
+      const maoLow = (arv * 0.75) - adjustedRepairs - WHOLESALE_FEE;
+      const maoHigh = (arv * 0.80) - adjustedRepairs - WHOLESALE_FEE;
+
+      const low = Math.max(0, Math.round(maoLow));
+      const high = Math.max(0, Math.round(maoHigh));
+
+      resultEl.innerHTML =
+        `<strong>Estimated Cash Offer Range:</strong><br>` +
+        `$${low.toLocaleString()} — $${high.toLocaleString()}<br><br>` +
+        `<strong>Based on:</strong> estimated ARV of $${Math.round(arv).toLocaleString()} in ${city === 'Other' ? 'your Connecticut area' : city}.<br>` +
+        `Repairs, condition, and wholesale fee included.<br><br>` +
+        `If this range looks good, call or text <strong>(203) 873-9890</strong> and mention this estimate.`;
+    }
+
+    function emailLead() {
+      const name = document.getElementById('sellerName').value || '(no name)';
+      const phone = document.getElementById('sellerPhone').value || '(no phone)';
+      const address = document.getElementById('propertyAddress').value || '(no address)';
+      const city = document.getElementById('city').value || '(no city)';
+      const sqft = document.getElementById('sqft').value || '(no sqft)';
+      const arv = document.getElementById('arv').value || '(no arv)';
+      const repairs = document.getElementById('repairs').value || '(no repairs)';
+      const condition = document.getElementById('condition').value || '(no condition)';
+      const estimateText = document.getElementById('offerResult').innerText || '(no estimate yet)';
+
+      const subject = encodeURIComponent('New Instant Offer Lead - ' + address);
+      const body = encodeURIComponent(
+        'New seller lead from Rosario-Homes.com\n\n' +
+        'Name: ' + name + '\n' +
+        'Phone: ' + phone + '\n' +
+        'Address: ' + address + '\n' +
+        'City: ' + city + '\n' +
+        'Sq Ft: ' + sqft + '\n' +
+        'ARV (if provided): ' + arv + '\n' +
+        'Repairs (seller estimate): ' + repairs + '\n' +
+        'Condition: ' + condition + '\n\n' +
+        'Estimate shown on site:\n' + estimateText + '\n'
+      );
+
+      window.location.href = 'mailto:rosarioshomes@gmail.com?subject=' + subject + '&body=' + body;
+    }
+  </script>
 </body>
 </html>

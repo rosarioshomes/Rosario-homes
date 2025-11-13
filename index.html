@@ -211,3 +211,142 @@
         <div id="details"></div>
       </div>
     </div>
+    <div class="card">
+      <h3>How This Estimate Works</h3>
+      <ul style="font-size:13px;padding-left:18px;margin:6px 0;">
+        <li>We use your <b>city</b> to pick an average price-per-square-foot.</li>
+        <li>We estimate the <b>after-repair value (ARV)</b> from city + size (or your ARV).</li>
+        <li>We subtract repairs (your number or our estimate by condition).</li>
+        <li>We apply a <b>75% investor rule</b> so buyers can still profit.</li>
+        <li>We subtract our built-in <b>$10,000 fee</b> so you never pay commissions.</li>
+      </ul>
+      <p style="font-size:13px;color:#4b5563;">
+        Prefer to talk instead? Call or text
+        <a class="tel" href="tel:+12038739890" style="color:#0d3b66;font-weight:600;text-decoration:none;">
+          203-873-9890
+        </a>
+        and we’ll run the numbers with you.
+      </p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container" style="text-align:center;font-size:12px;color:#6b7280;padding:14px 0 20px;">
+    © <span id="year"></span> Rosario’s Homes · Connecticut Cash Buyers
+  </div>
+</footer>
+
+<script>
+  // City-based price per square foot (rough CT numbers – adjust later if you want)
+  const CITY_PPSF = {
+    "bridgeport": 190,
+    "stratford": 215,
+    "shelton": 230,
+    "fairfield": 275,
+    "trumbull": 245,
+    "milford": 240,
+    "waterbury": 165,
+    "new haven": 210,
+    "west haven": 200,
+    "hamden": 215,
+    "derby": 185,
+    "ansonia": 185,
+    "norwalk": 290,
+    "stamford": 310,
+    "danbury": 240
+  };
+
+  const DEFAULT_PPSF = 200;      // fallback for any CT city not listed
+  const INVESTOR_MULT = 0.75;    // 75% rule
+  const WHOLESALE_FEE = 10000;   // your fee
+
+  function getPpsf(city) {
+    if (!city) return DEFAULT_PPSF;
+    const key = city.trim().toLowerCase();
+    return CITY_PPSF[key] || DEFAULT_PPSF;
+  }
+
+  function formatMoney(n) {
+    return "$" + n.toLocaleString("en-US", { maximumFractionDigits: 0 });
+  }
+
+  function calculateOffer() {
+    const cityEl = document.getElementById("city");
+    const sqftEl = document.getElementById("sqft");
+    const condEl = document.getElementById("condition");
+    const repairsEl = document.getElementById("repairs");
+    const arvEl = document.getElementById("arv");
+    const errorEl = document.getElementById("error");
+    const resultBox = document.getElementById("result");
+    const offerRangeEl = document.getElementById("offerRange");
+    const detailsEl = document.getElementById("details");
+
+    const city = cityEl.value.trim();
+    const sqft = parseFloat(sqftEl.value);
+    const condition = condEl.value;
+    const repairsInput = parseFloat(repairsEl.value);
+    const arvInput = parseFloat(arvEl.value);
+
+    errorEl.textContent = "";
+    resultBox.style.display = "none";
+
+    if (!city || !sqft || sqft <= 0 || !condition) {
+      errorEl.textContent = "Please enter city, square footage, and condition.";
+      return;
+    }
+
+    // ARV
+    let arv;
+    if (!isNaN(arvInput) && arvInput > 0) {
+      arv = arvInput;
+    } else {
+      const ppsf = getPpsf(city);
+      arv = sqft * ppsf;
+    }
+
+    // Repairs
+    let repairs;
+    if (!isNaN(repairsInput) && repairsInput >= 0) {
+      repairs = repairsInput;
+    } else {
+      // rough repair estimate by condition
+      let factor = 0.03; // updated
+      if (condition === "dated") factor = 0.08;
+      if (condition === "needswork") factor = 0.15;
+      if (condition === "major") factor = 0.25;
+      repairs = arv * factor;
+    }
+
+    if (arv <= 0) {
+      errorEl.textContent = "We couldn't estimate value. Try adding an ARV or checking your sqft.";
+      return;
+    }
+
+    // Investor max using 75% rule
+    const investorMax = arv * INVESTOR_MULT - repairs;
+    const sellerNet = investorMax - WHOLESALE_FEE;
+
+    if (sellerNet <= 0) {
+      errorEl.textContent = "Based on the numbers, this property may be too tight for a cash offer. Call 203-873-9890 and we can look at creative options.";
+      return;
+    }
+
+    // Show a small range around the estimate (-5% to +5%)
+    const low = sellerNet * 0.95;
+    const high = sellerNet * 1.05;
+
+    offerRangeEl.textContent = formatMoney(low) + " – " + formatMoney(high);
+    detailsEl.innerHTML =
+      "Estimated ARV around " + formatMoney(arv) +
+      ", with about " + formatMoney(repairs) + " in repairs and our $10,000 fee already built in.";
+
+    resultBox.style.display = "block";
+  }
+
+  // Set footer year
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

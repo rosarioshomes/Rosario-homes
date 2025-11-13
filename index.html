@@ -352,4 +352,152 @@
         </div>
         <div>
           <label for="baths">Baths</label>
-         
+             .logo{
+      width:42px;
+      height:42px;
+      border-radius:10px;
+      background:linear-gradient(135deg,var(--accent),#ffe38a);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:800;
+      color:#111827;
+    }
+    .brand-text h1{
+      margin:0;
+      font-size:18px;
+    }
+    .brand-text p{
+      margin:0;
+      font-size:12px;
+      opacity:.9;
+    }
+    .header-cta{
+      margin-left:auto;
+    }
+    .btn{
+      display:inline-block;
+      padding:10px 16px;
+      border-radius:999px;
+      background:var(--accent);
+      color:#111827;
+      text-decoration:none;
+      font-weight:700;
+      border:1px solid rgba(0,0,0,.08);
+    }
+    .hero{
+      background:linear-gradient(180deg,#0d3b66 0%,#0b2952 55%,#07182f 100%);
+      color:#fff;
+      padding:40px 0 26px;
+      text-align:center;
+    }
+    .hero h2{
+      margin:6px 0 10px;
+      font-size:28px;
+    }
+    .hero p{
+      margin:0 0 12px;
+      font-size:16px;
+      opacity:.95;
+    }
+    .pill{
+      display:inline-block;
+      padding:6px 12px;
+      border-radius:999px;
+      background:var(--accent);
+      color:#111827;
+      font-weight:700;
+      font-size:13px;
+    }
+    .badges{
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:14px;
+    }
+              .badge{
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.35);
+      font-size:12px;
+      background:rgba(0,0,0,.15);
+    }
+    .main{
+      margin-top:-20px;
+      padding-bottom:40px;
+    }
+    .split{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:18px;
+    }
+    @media(min-width:900px){
+      .split{
+        grid-template-columns:1.1fr .9fr;
+        align-items:start;
+      }
+    }
+    .card{
+      background:var(--card);
+      border-radius:16px;
+      padding:18px 18px 20px;
+      border:1px solid var(--border);
+      box-shadow:0 10px 24px rgba(15,23,42,.06);
+    }
+    h3{
+      margin-top:0;
+      margin-bottom:10px;
+      font-size:18px;
+      color:#0d3b66;
+    }
+    label{
+      font-size:13px;
+      font-weight:600;
+      display:block;
+      margin-bottom:4px;
+    }
+    input,select{
+      width:100%;
+      padding:8px 9px;
+      border-radius:8px;
+      border:1px solid var(--border);
+      font-size:14px;
+    }
+    input:focus,select:focus{
+      outline:none;
+      border-color:#2563eb;
+      box-shadow:0 0 0 1px #2563eb33;
+    }
+              /* —— END STYLE ——
+       Now HTML body continues
+    */
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container brand-row">
+    <div class="logo">RH</div>
+    <div class="brand-text">
+      <h1>Rosario’s Homes</h1>
+      <p>Cash Home Buyers · Connecticut</p>
+    </div>
+    <div class="header-cta">
+      <a class="btn" href="tel:+12038739890">Call 203-873-9890</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <span class="pill">Instant Cash Offer Estimate</span>
+    <h2>Sell Your Connecticut House Fast</h2>
+    <p>No repairs. No commissions. We pay all closing costs.</p>
+  </div>
+</section>
+
+<!-- Stop here — I will send the next 4 chunks (body, form, JS calculator, footer) next -->
+
+</body>
+</html>
